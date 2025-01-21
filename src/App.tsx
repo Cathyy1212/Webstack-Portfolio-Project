@@ -1,4 +1,4 @@
-import { Autocomplete, Box, Card, CardContent, Grid, Stack, TextField, Typography } from '@mui/material';
+import { AppBar, Autocomplete, Box, Button, Card, CardContent, Container, Grid, Stack, TextField, Toolbar, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import './App.css';
 import ForecastDay from './ForecastDay';
@@ -44,6 +44,7 @@ const App = () => {
 
   const [forecast, setForecast] = useState<ForecastDay[]>([]);
   const [selectedCity, setSelectedCity] = useState("Marrakech");
+  const [lastCitySearch, setLastCitySearch] = useState("Marrakech");
 
   // List of some well-known cities in the world
   const cities = [
@@ -60,43 +61,68 @@ const App = () => {
   ];
 
   useEffect(() => {
+    getWeather();
+  }, []);
+
+  const getWeather = () => {
     MyWeatherApi
       .getWeather(selectedCity)
       .then(data => setForecast(data));
-  }, [selectedCity]);
-
+  }
 
   return (
     <div className="App">
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="sticky">
+          <Toolbar>
+            <Typography variant="h6" sx={{ flexGrow: 1, textAlign: 'left' }}>
+              MyWeather App
+            </Typography>
+          </Toolbar>
+        </AppBar>
+      </Box>
       <Grid container spacing={2} columns={{ xs: 8, sm: 8, md: 12 }}>
         <Grid item xs={12}>
           <Card sx={{ marginTop: 4, width: '100%' }}>
             <CardContent>
-              <Typography variant="h5" gutterBottom>Search for a City</Typography>
-              <Autocomplete
-                freeSolo={false}
-                options={cities}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Search for a city"
-                    variant="outlined"
-                    fullWidth
-                  />
-                )}
-                onChange={(event, newInputValue) => {
-                  if (newInputValue) {
-                    setSelectedCity(newInputValue)
-                  }
-                }}
-                value={selectedCity}
-                disableClearable
-              />
+              <Box sx={{ display: 'flex', width: '100%' }}>
+                <Autocomplete
+                  fullWidth
+                  freeSolo={false}
+                  options={cities}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Search for a city"
+                      variant="outlined"
+                      fullWidth
+                    />
+                  )}
+                  onChange={(event, newInputValue) => {
+                    if (newInputValue) {
+                      setSelectedCity(newInputValue)
+                    }
+                  }}
+                  value={selectedCity}
+                  disableClearable
+                />
+                <Button
+                  variant="contained"
+                  sx={{ marginLeft: 2 }}
+                  color="inherit"
+                  onClick={() => {
+                    setLastCitySearch(selectedCity);
+                    getWeather();
+                  }}
+                >
+                  Search
+                </Button>
+              </Box>
             </CardContent>
           </Card>
         </Grid>
         <Grid item xs={12} textAlign={'left'}>
-          <Typography variant="h3">Temperature of {selectedCity}</Typography>
+          <Typography variant="h3">Temperature of {lastCitySearch}</Typography>
         </Grid>
         <Grid item xs={12}>
           <Stack
@@ -106,7 +132,7 @@ const App = () => {
             gap={2}
           >
             {
-              forecast.map(forecast => <MaCarte forecast={forecast} />)
+              forecast.map(forecast => <MaCarte key={forecast.date} forecast={forecast} />)
             }
           </Stack>
         </Grid>
