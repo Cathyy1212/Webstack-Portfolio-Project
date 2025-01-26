@@ -64,8 +64,8 @@ The app utilizes Material UI React library to ensure responsiveness across all d
 
 ## Important Links
 
-Presentation: [https://docs.google.com/presentation/d/1HtkS2zFzPk4O7rd7JrR98ooxytcqbEOxAA3pQoOjTIs/edit?usp=sharing](Google Presentation)
+Presentation: [https://docs.google.com/presentation/d/1HtkS2zFzPk4O7rd7JrR98ooxytcqbEOxAA3pQoOjTIs/edit?usp=sharing]
 
-Video: [https://youtu.be/eEpQHHXbd2o?si=0ZdqYj52RFb2L5zU](YouTube Demo)
+Video: [https://youtu.be/eEpQHHXbd2o?si=0ZdqYj52RFb2L5zU]
 
-Live Application: [https://webstack-portfolio-project-five.vercel.app/](Vercel Deployment)
+Live Application: [https://webstack-portfolio-project-five.vercel.app/]
